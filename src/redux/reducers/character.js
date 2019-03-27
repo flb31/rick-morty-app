@@ -6,6 +6,9 @@ import {
     FETCH_CHARACTER_GET,
     SUCCESS_CHARACTER_GET,
     ERROR_CHARACTER_GET,
+    SUCCESS_CHARACTER_SEARCH,
+    ERROR_CHARACTER_SEARCH,
+    FETCH_CHARACTER_SEARCH,
 } from '../constants/characters';
   
 const initialState = {
@@ -16,11 +19,13 @@ const initialState = {
     page: 1,
     prev: false,
     next: false,
+    query: '',
 };
   
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case FETCH_CHARACTER_GET:
+        case FETCH_CHARACTER_SEARCH:
         case FETCH_CHARACTER:
             return {
                 ...state,
@@ -40,11 +45,28 @@ const reducer = (state = initialState, action) => {
                 prev: action.payload.prev,
                 next: action.payload.next,
                 pages: action.payload.pages,
+                query: action.payload.query,
+                isFetching: false,
+            };
+        case SUCCESS_CHARACTER_SEARCH:
+            return {
+                ...state,
+                data: {
+                    [action.payload.page]: [
+                        ...action.payload.data,
+                    ],
+                },
+                page: action.payload.page,
+                prev: action.payload.prev,
+                next: action.payload.next,
+                pages: action.payload.pages,
+                query: action.payload.query,
                 isFetching: false,
             };
         
         case ERROR_CHARACTER:
         case ERROR_CHARACTER_GET:
+        case ERROR_CHARACTER_SEARCH:
             return {
                 ...state,
                 isFetching: false,

@@ -5,12 +5,12 @@ import PropTypes from 'prop-types';
 class Pagination extends Component {
 
     prev = () => {
-        const { updateAction, dataPagination, fetchAction, page, action } = this.props;
+        const { updateAction, dataPagination, fetchAction, page, action, query } = this.props;
         const newPage = page-1;
         if(!dataPagination[newPage]) {
-            action(fetchAction, newPage);
+            action(fetchAction, newPage, query);
         } else {
-            action(updateAction, newPage);
+            action(updateAction, newPage, query);
         }
     }
 
@@ -37,8 +37,8 @@ class Pagination extends Component {
 
 
 const mapDispatchToProps = dispatch => ({
-    action(action, page) {
-        dispatch(action(page))
+    action(action, page, query) {
+        dispatch(action(page, query))
     },
 });
 

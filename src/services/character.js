@@ -1,7 +1,7 @@
 const BASEURL = 'https://rickandmortyapi.com/api/';
 
-export const listCharacters = (page) => {
-    return fetch(`${BASEURL}/character?page=${page}`)
+export const listCharacters = (page, q) => {
+    return fetch(`${BASEURL}/character?page=${page}&name=${q}`)
         .then(response => response.json());
 }
 
