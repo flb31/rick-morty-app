@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchSearchCharacters } from '../../redux/actions/character';
+import qs from 'query-string';
 
 class SearchBox extends Component {
     
@@ -22,6 +23,7 @@ class SearchBox extends Component {
 
     search = () => {
         const { query, timeout } = this.state;
+        const { history, location } = this.props;
 
         if ( timeout ) {
             clearTimeout(timeout);
@@ -32,6 +34,11 @@ class SearchBox extends Component {
 
         if(query.length >= this.MIN_LENGTH) {
             const timeout = setTimeout(() => {
+                history.push({
+                    pathname: location.pathname,
+                    search: `?query=${query}`
+                });
+
                 this.props.fetchSearchCharacters(query);
             }, this.DELAY);
 
@@ -40,6 +47,13 @@ class SearchBox extends Component {
             });
         }
         
+    }
+
+    componentWillMount() {
+        const queryParams = qs.parse(this.props.location.search);
+        this.setState({
+           query: queryParams.query,
+        });
     }
 
 

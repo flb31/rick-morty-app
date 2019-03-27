@@ -32,13 +32,13 @@ class Character extends Component {
     }
 
     render() {
-        const { character } = this.props;
+        const { character, history } = this.props;
 
         return (
             <div>
                 <h4>Character</h4>
                 { !character.isFetching ? this.renderCharacter() : <h5>Loading</h5> }
-                <Link to="/">Regresar</Link>
+                <Link to="" onClick={() => history.goBack() }>Regresar</Link>
             </div>
         )
     }
