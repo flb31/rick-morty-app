@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router } from 'react-router-dom';
 import Layout from './components/Layout';
 
 class App extends Component {
