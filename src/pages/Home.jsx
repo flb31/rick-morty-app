@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchCharacter, updateNumCharacter } from '../redux/actions/character';
+import { fetchCharacters, updateNumCharacter } from '../redux/actions/character';
 import CharacterCard from '../components/CharacterCard/CharacterCard';
 import Pagination from '../components/Pagination/Pagination';
 
 class Home extends Component {
     componentDidMount() {
-        const { fetchCharacter, character } =  this.props;
-        fetchCharacter(character.page);
+        const { fetchCharacters, character } =  this.props;
+        if(!character.data[character.page]) {
+            fetchCharacters(character.page);
+        }
     }
 
     renderCharacters = () => {
@@ -24,7 +26,7 @@ class Home extends Component {
                 { character.error ? <h5 style={{color: 'red'}}>Error: { character.errorMessage } </h5> : null }
 
                 <Pagination
-                    fetchAction={fetchCharacter}
+                    fetchAction={fetchCharacters}
                     updateAction={updateNumCharacter}
                     page={character.page}
                     prev={character.prev}
@@ -43,9 +45,9 @@ const mapStateToProps = state => {
 };
   
 const mapDispatchToProps = dispatch => ({
-    fetchCharacter(page) {
-        dispatch(fetchCharacter(page))
-    },
+    fetchCharacters(page) {
+        dispatch(fetchCharacters(page))
+    }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

@@ -5,9 +5,10 @@ import './CharacterCard.scss';
 
 const CharacterCard = (props) => {
     const { character } = props;
+
     return (
         <div className="CharacterCard">
-            <Link to={`/character`}>{character.name}</Link>
+            <Link to={`${character.id}/character`}>{character.name}</Link>
         </div>
     );
 };

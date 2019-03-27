@@ -3,9 +3,12 @@ import {
     FETCH_CHARACTER,
     SUCCESS_CHARACTER,
     ERROR_CHARACTER,
+    FETCH_CHARACTER_GET,
+    SUCCESS_CHARACTER_GET,
+    ERROR_CHARACTER_GET,
  } from '../constants/characters';
 
- import { listCharacters } from '../../services/character';
+ import { listCharacters, getCharacter } from '../../services/character';
 
 function* fetchCharacters(action) {
     const { page } = action;
@@ -30,8 +33,28 @@ function* fetchCharacters(action) {
     
 }
 
+function* fetchCharacter(action) {
+    const { id } = action;
+    try {
+        const json = yield getCharacter(id);
+        yield put({
+            type: SUCCESS_CHARACTER_GET,
+            payload: {
+                character: json,
+                id,
+            },
+        });
+    } catch (error) {
+        yield put({
+            type: ERROR_CHARACTER_GET,
+            payload: error,
+        });
+    }
+}
+
 function* characterSagaWatcher() {
     yield takeLatest(FETCH_CHARACTER, fetchCharacters);
+    yield takeLatest(FETCH_CHARACTER_GET, fetchCharacter);
 }
 
 export default characterSagaWatcher;

@@ -11,7 +11,7 @@ export default [
         exact: true,
     },
     {
-        path: "/:slug/character",
+        path: "/:id/character",
         component: Character,
         exact: true,
     },
