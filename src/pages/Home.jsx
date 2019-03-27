@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchCharacter } from '../redux/actions/character';
+import { fetchCharacter, updateNumCharacter } from '../redux/actions/character';
 import CharacterCard from '../components/CharacterCard/CharacterCard';
 import Pagination from '../components/Pagination/Pagination';
 
@@ -10,19 +10,9 @@ class Home extends Component {
         fetchCharacter(character.page);
     }
 
-    componentWillReceiveProps(nextProps) {
-        const { character } = nextProps;
-
-        if(!character.isFetching) {
-            this.setState({
-                page: character.page
-            });
-        }
-    }
-
     renderCharacters = () => {
         const { character } = this.props;
-        return character.data.map( character => <CharacterCard key={character.id} character={character} /> )
+        return character.data[character.page] ? character.data[character.page].map( character => <CharacterCard key={character.id} character={character} /> ) : null
     }
 
     render() {
@@ -34,9 +24,11 @@ class Home extends Component {
                 { character.error ? <h5 style={{color: 'red'}}>Error: { character.errorMessage } </h5> : null }
 
                 <Pagination
-                    action={fetchCharacter}
+                    fetchAction={fetchCharacter}
+                    updateAction={updateNumCharacter}
                     page={character.page}
                     prev={character.prev}
+                    dataPagination={character.data}
                     next={character.next} />
             </div>
         )

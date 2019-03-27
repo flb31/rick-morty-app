@@ -13,10 +13,13 @@ function* fetchCharacters(action) {
         const json = yield listCharacters(page);
         yield put({
             type: SUCCESS_CHARACTER,
-            payload: json.results,
-            page,
-            prev: json.info.prev ? true : false,
-            next: json.info.next ? true : false,
+            payload: {
+                data:json.results,
+                page,
+                pages: json.info.pages,
+                prev: json.info.prev ? true : false,
+                next: json.info.next ? true : false,
+            }
         });
     } catch (error) {
         yield put({

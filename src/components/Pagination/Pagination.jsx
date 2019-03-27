@@ -5,13 +5,23 @@ import PropTypes from 'prop-types';
 class Pagination extends Component {
 
     prev = () => {
-        const { action, page, fetchList } = this.props;
-        fetchList(action, page-1);
+        const { updateAction, dataPagination, fetchAction, page, action } = this.props;
+        const newPage = page-1;
+        if(!dataPagination[newPage]) {
+            action(fetchAction, newPage);
+        } else {
+            action(updateAction, newPage);
+        }
     }
 
     next = () => {
-        const { action, page, fetchList } = this.props;
-        fetchList(action, page+1);
+        const { updateAction, dataPagination, fetchAction, page, action } = this.props;
+        const newPage = page+1;
+        if(!dataPagination[newPage]) {
+            action(fetchAction, newPage);
+        } else {
+            action(updateAction, newPage);
+        }
     }
 
     render() {
@@ -27,16 +37,18 @@ class Pagination extends Component {
 
 
 const mapDispatchToProps = dispatch => ({
-    fetchList(action, page) {
+    action(action, page) {
         dispatch(action(page))
     },
 });
 
 Pagination.propTypes = {
     page: PropTypes.number.isRequired,
-    action: PropTypes.func.isRequired,
+    fetchAction: PropTypes.func.isRequired,
+    updateAction: PropTypes.func.isRequired,
     next: PropTypes.bool.isRequired,
     prev: PropTypes.bool.isRequired,
+    dataPagination: PropTypes.object.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Pagination);
