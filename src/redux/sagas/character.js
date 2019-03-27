@@ -14,7 +14,9 @@ function* fetchCharacters(action) {
         yield put({
             type: SUCCESS_CHARACTER,
             payload: json.results,
-            page: page,
+            page,
+            prev: json.info.prev ? true : false,
+            next: json.info.next ? true : false,
         });
     } catch (error) {
         yield put({

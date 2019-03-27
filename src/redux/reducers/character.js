@@ -8,6 +8,9 @@ const initialState = {
     isFetching: false,
     error: false,
     data: [],
+    page: 1,
+    prev: false,
+    next: false,
 };
   
 const reducer = (state = initialState, action) => {
@@ -25,6 +28,8 @@ const reducer = (state = initialState, action) => {
                     ...action.payload,
                 ],
                 page: action.page,
+                prev: action.prev,
+                next: action.next,
                 isFetching: false,
             };
         case ERROR_CHARACTER:
